@@ -11,32 +11,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
+    primary = MaroonPrimaryDark,
+    onPrimary = MaroonOnPrimaryDark,
+    primaryContainer = MaroonPrimaryContainerDark,
+    onPrimaryContainer = MaroonOnPrimaryContainerDark,
+    secondary = MaroonSecondaryDark,
+    onSecondary = MaroonOnSecondaryDark,
+    secondaryContainer = MaroonSecondaryContainerDark,
+    onSecondaryContainer = MaroonOnSecondaryContainerDark,
+    tertiary = MaroonTertiaryDark,
+    onTertiary = MaroonOnTertiaryDark,
+    tertiaryContainer = MaroonTertiaryContainerDark,
+    onTertiaryContainer = MaroonOnTertiaryContainerDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = MaroonPrimary,
+    onPrimary = MaroonOnPrimary,
+    primaryContainer = MaroonPrimaryContainer,
+    onPrimaryContainer = MaroonOnPrimaryContainer,
+    secondary = MaroonSecondary,
+    onSecondary = MaroonOnSecondary,
+    secondaryContainer = MaroonSecondaryContainer,
+    onSecondaryContainer = MaroonOnSecondaryContainer,
+    tertiary = MaroonTertiary,
+    onTertiary = MaroonOnTertiary,
+    tertiaryContainer = MaroonTertiaryContainer,
+    onTertiaryContainer = MaroonOnTertiaryContainer,
+    background = androidx.compose.ui.graphics.Color.White,
+    surface = androidx.compose.ui.graphics.Color.White,
+    onBackground = androidx.compose.ui.graphics.Color.Black,
+    onSurface = androidx.compose.ui.graphics.Color.Black
 )
 
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    // Dynamic color is disabled to force the Liceo Maroon theme
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
