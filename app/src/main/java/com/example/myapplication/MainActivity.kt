@@ -65,12 +65,10 @@ fun GroceryListApp() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // ---- Challenge 2: Show a live item count ----
         Text(text = "Total items: ${groceries.size}", fontSize = 16.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // ---- 3. LIST + DELETE EVENT ----
         LazyColumn {
             items(groceries) { item ->
                 Row(
@@ -87,8 +85,7 @@ fun GroceryListApp() {
                 }
             }
         }
-        
-        // Bonus: Clear All button
+
         if (groceries.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
