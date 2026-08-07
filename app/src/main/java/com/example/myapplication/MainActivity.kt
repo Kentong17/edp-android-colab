@@ -6,20 +6,43 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import kotlinx.serialization.Serializable
+
+@Serializable
+object Home
+
+@Serializable
+data class Greeting(val userName: String)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    ReactiveScreen()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = Home) {
+                        composable<Home> {
+                            HomeScreen(onShowGreeting = { typedName ->
+                                navController.navigate(Greeting(userName = typedName))
+                            })
+                        }
+                        composable<Greeting> { backStackEntry ->
+                            val greeting: Greeting = backStackEntry.toRoute()
+                            GreetingScreen(userName = greeting.userName)
+                        }
+                    }
                 }
             }
         }
@@ -27,57 +50,35 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ReactiveScreen() {
-    // Part A: Counter State (Survives recomposition)
-    var count by remember { mutableIntStateOf(0) }
-
-    // Part B & C: Greeting State (Survives recomposition AND rotation)
-    var name by rememberSaveable { mutableStateOf("") }
-
+fun HomeScreen(onShowGreeting: (String) -> Unit) {
+    var name by remember { mutableStateOf("") }
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Part B: The reactive greeting and text input
-        Text(
-            text = if (name.isBlank()) "Hello, stranger!" else "Hello, $name!",
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(Modifier.height(16.dp))
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Enter your name") }
+            label = { Text("Type your name") }
         )
-        Spacer(Modifier.height(32.dp))
-
-        // Part D (Bonus): Using the hoisted, stateless counter
-        CounterControls(
-            count = count,
-            onIncrement = { count++ },
-            onDecrement = { count-- },
-            onReset = { count = 0 }
-        )
+        Spacer(Modifier.height(16.dp))
+        Button(onClick = { onShowGreeting(name) }) {
+            Text("Show Greeting")
+        }
     }
 }
 
-// Part D (Bonus): Stateless Composable component
 @Composable
-fun CounterControls(
-    count: Int,
-    onIncrement: () -> Unit,
-    onDecrement: () -> Unit,
-    onReset: () -> Unit
-) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "Count: $count", fontSize = 24.sp)
-        Spacer(Modifier.height(16.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Button(onClick = onDecrement) { Text("–") }
-            Button(onClick = onReset) { Text("Reset") }
-            Button(onClick = onIncrement) { Text("+") }
-        }
+fun GreetingScreen(userName: String) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Hello, $userName! Welcome to Jetpack Navigation.",
+            fontSize = 22.sp
+        )
     }
 }
