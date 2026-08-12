@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun ProfileForm(state: ProfileUiState, viewModel: ProfileViewModel) {
@@ -138,9 +139,9 @@ fun ProfileScreen(viewModel: ProfileViewModel = viewModel()) {
     }
 }
 
-@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Light Mode")
 @Composable
-fun ProfilePreviewDemo() {
+fun ProfilePreviewLightDemo() {
     val state = ProfileUiState(
         name = "Kent Vladimer S. Bitanghol",
         email = "kvbitanghol05181@liceo.edu.ph",
@@ -150,7 +151,26 @@ fun ProfilePreviewDemo() {
         skills = listOf("Kotlin", "Jetpack Compose", "MVVM"),
         isPreview = true
     )
-    MaterialTheme {
+    MyApplicationTheme(darkTheme = false) {
+        Surface {
+            ProfilePreview(state = state, onBack = {})
+        }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Dark Mode")
+@Composable
+fun ProfilePreviewDarkDemo() {
+    val state = ProfileUiState(
+        name = "Kent Vladimer S. Bitanghol",
+        email = "kvbitanghol05181@liceo.edu.ph",
+        contactNumber = "+63 945 275 8372",
+        address = "Cagayan de Oro, Philippines",
+        username = "Kentong17",
+        skills = listOf("Kotlin", "Jetpack Compose", "MVVM"),
+        isPreview = true
+    )
+    MyApplicationTheme(darkTheme = true) {
         Surface {
             ProfilePreview(state = state, onBack = {})
         }
